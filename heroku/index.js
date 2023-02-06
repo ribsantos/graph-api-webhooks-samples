@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-require('dotenv').config()
+// require('dotenv').config()
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
@@ -21,6 +21,8 @@ app.use(bodyParser.json());
 var token = process.env.TOKEN || 'token';
 var received_updates = [];
 
+console.log(process.env)
+
 app.get('/', function(req, res) {
   console.log(req);
   res.send('<pre>' + JSON.stringify(received_updates, null, 2) + '</pre>');
@@ -28,8 +30,9 @@ app.get('/', function(req, res) {
 
 app.get(['/facebook', '/instagram'], function(req, res) {
   if (
-    req.query['hub.mode'] == 'subscribe' &&
-    req.query['hub.verify_token'] == token
+    req.query['hub.mode'] == 'subscribe'
+      // &&
+    // req.query['hub.verify_token'] == token
   ) {
     res.send(req.query['hub.challenge']);
   } else {
