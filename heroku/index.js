@@ -11,6 +11,8 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var xhub = require('express-x-hub');
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'));
