@@ -5,22 +5,18 @@
  * This source code is licensed under the license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-// require('dotenv').config()
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var xhub = require('express-x-hub');
-const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'));
 
-app.use(xhub({ algorithm: 'sha1', secret: process.env.APP_SECRET }));
+app.use(xhub({ algorithm: 'sha1', secret: "76ea1e732542c97459a15cc75e7f7397" }));
 app.use(bodyParser.json());
 
-var token = process.env.TOKEN || 'token';
+var token = process.env.TOKEN || 'alanR';
 var received_updates = [];
 
 console.log(process.env)
@@ -33,8 +29,8 @@ app.get('/', function(req, res) {
 app.get(['/facebook', '/instagram'], function(req, res) {
   if (
     req.query['hub.mode'] == 'subscribe'
-      // &&
-    // req.query['hub.verify_token'] == token
+      &&
+    req.query['hub.verify_token'] == token
   ) {
     res.send(req.query['hub.challenge']);
   } else {
